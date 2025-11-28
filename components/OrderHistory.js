@@ -72,7 +72,7 @@ export default function OrderHistory({ onRepeatOrder, onBack }) {
             <View style={styles.header}>
                 <View style={styles.headerTop}>
                     <TouchableOpacity style={styles.backButton} onPress={onBack}>
-                        <Icon name="arrow-back" size={24} color="#1a1a1a" />
+                        <Text style={styles.backText}>← Back</Text>
                     </TouchableOpacity>
                     <Text style={styles.headerTitle}>Order History</Text>
                 </View>
@@ -150,7 +150,14 @@ const styles = StyleSheet.create({
     },
     backButton: {
         marginRight: 16,
-        padding: 4,
+        padding: 8,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 6,
+    },
+    backText: {
+        fontSize: 14,
+        color: '#1a1a1a',
+        fontWeight: '600',
     },
     headerTitle: {
         fontSize: 24,
