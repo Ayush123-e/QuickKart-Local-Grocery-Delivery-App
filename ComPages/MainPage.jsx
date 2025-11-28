@@ -11,11 +11,27 @@ import {
 } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import OrderHistory from '../components/OrderHistory';
+import CartService from '../services/CartService';
 
 const { width: screenWidth } = Dimensions.get("window");
 
 export default function MainPage() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [showOrderHistory, setShowOrderHistory] = useState(false);
+
+    const handleRepeatOrder = (items) => {
+        CartService.addItems(items);
+    };
+
+    if (showOrderHistory) {
+        return (
+            <OrderHistory 
+                onRepeatOrder={handleRepeatOrder}
+                onBack={() => setShowOrderHistory(false)}
+            />
+        );
+    }
 
     // Banner images
     const bannerImages = [
