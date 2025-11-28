@@ -334,181 +334,87 @@ const GroceryList = () => {
         </View>
     );
 
-    return (
-        <SafeAreaView style={styles.container} edges={["top", "left", "right"]}>
-            <SectionList
-                sections={filteredData}
-                keyExtractor={(item, index) => item.name + index}
-                renderItem={renderItem}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.sectionHeader}>{title}</Text>
-                )}
-                ListHeaderComponent={ListHeader}
-                contentContainerStyle={styles.listContent}
-                stickySectionHeadersEnabled={false}
-            />
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Search Bar */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search items..."
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
+
+      {/* Section List */}
+      <SectionList
+        sections={filteredData}
+        keyExtractor={(item, index) => item + index}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.title}>{item}</Text>
+          </View>
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>{title}</Text>
+          </View>
+        )}
+        contentContainerStyle={styles.listContent}
+      />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-    },
-    listContent: {
-        paddingBottom: 40,
-    },
-    headerContainer: {
-        paddingHorizontal: 20,
-        paddingTop: 10,
-    },
-    headerTitle: {
-        fontSize: 28,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-        marginBottom: 16,
-    },
-    searchBar: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#F5F6FA",
-        borderRadius: 12,
-        paddingHorizontal: 16,
-        height: 50,
-    },
-    searchIcon: {
-        marginRight: 12,
-    },
-    searchInput: {
-        flex: 1,
-        fontSize: 16,
-        color: "#333",
-    },
-    bannerContainer: {
-        marginHorizontal: 20,
-        marginTop: 20,
-        backgroundColor: "#FEF9E7", // Light yellow/beige
-        borderRadius: 16,
-        padding: 20,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        height: 120,
-    },
-    bannerTextContainer: {
-        flex: 1,
-    },
-    bannerTitle: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-    },
-    bannerSubtitle: {
-        fontSize: 14,
-        color: "#555",
-        marginTop: 4,
-    },
-    bannerImage: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-    },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-        marginLeft: 20,
-        marginTop: 24,
-        marginBottom: 12,
-    },
-    categoriesScroll: {
-        paddingLeft: 20,
-        marginBottom: 10,
-    },
-    categoryCard: {
-        width: 80,
-        height: 90,
-        borderRadius: 16,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 16,
-        padding: 8,
-    },
-    selectedCategoryCard: {
-        borderWidth: 2,
-        borderColor: "#27ae60",
-    },
-    categoryImage: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginBottom: 8,
-    },
-    categoryName: {
-        fontSize: 12,
-        fontWeight: "600",
-        color: "#333",
-    },
-    sectionHeader: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-        marginLeft: 20,
-        marginTop: 20,
-        marginBottom: 12,
-    },
-    itemCard: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#fff",
-        marginHorizontal: 20,
-        marginBottom: 12,
-        padding: 12,
-        borderRadius: 16,
-        // Soft shadow
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 8,
-        elevation: 2,
-        borderWidth: 1,
-        borderColor: "#F0F0F0",
-    },
-    itemImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 12,
-        marginRight: 16,
-        backgroundColor: "#F5F6FA",
-    },
-    itemInfo: {
-        flex: 1,
-    },
-    itemName: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-        marginBottom: 4,
-    },
-    itemPrice: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: "#1a1a1a",
-    },
-    itemWeight: {
-        fontSize: 14,
-        color: "#888",
-        fontWeight: "normal",
-    },
-    addButton: {
-        backgroundColor: "#27ae60", // Green accent
-        width: 40,
-        height: 40,
-        borderRadius: 12,
-        alignItems: "center",
-        justifyContent: "center",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "#f8f9fa",
+  },
+  searchContainer: {
+    padding: 16,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    zIndex: 1,
+  },
+  searchInput: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    backgroundColor: "#f9f9f9",
+  },
+  listContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  header: {
+    backgroundColor: "#f8f9fa",
+    paddingVertical: 12,
+    marginTop: 10,
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#2c3e50",
+  },
+  item: {
+    backgroundColor: "#ffffff",
+    padding: 16,
+    marginVertical: 6,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  title: {
+    fontSize: 18,
+    color: "#34495e",
+  },
 });
 
 export default GroceryList;

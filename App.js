@@ -1,20 +1,31 @@
+import { registerRootComponent } from "expo";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Navigation from "./ComPages/Navigation";
+import { useState } from "react";
+import HomePage from "./ComPages/HomePage";
+import Login from "./ComPages/Login";
+import MainPage from "./ComPages/MainPage";
 
-export default function App() {
+function App() {
+  const [currentScreen, setCurrentScreen] = useState("home"); // "home", "login", "main"
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case "login":
+        return <Login onCreateAccount={() => setCurrentScreen("main")} />;
+      case "main":
+        return <MainPage />;
+      default:
+        return <HomePage onGetStarted={() => setCurrentScreen("login")} />;
+    }
+  };
+
   return (
-    <SafeAreaProvider>
-      <Navigation />
+    <>
+      {renderScreen()}
       <StatusBar style="auto" />
-    </SafeAreaProvider>
+    </>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
+export default App;
+registerRootComponent(App);

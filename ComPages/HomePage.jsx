@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from "rea
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 
-export default function HomePage({ navigation }) {
+export default function HomePage({ onGetStarted }) {
   const photos = [
     "https://cdn.pixabay.com/photo/2020/05/22/03/10/vegetables-5203555_1280.jpg",
     "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D",
@@ -89,7 +89,7 @@ export default function HomePage({ navigation }) {
             shadowRadius: 4.65,
             elevation: 8,
           }}
-          onPress={() => navigation.navigate("GroceryList")}
+          onPress={onGetStarted}
         >
           <Text style={{
             color: "white",
