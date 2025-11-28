@@ -278,20 +278,27 @@ export default function MainPage() {
         return { ...section, data: filteredItems };
     }).filter((section) => section !== null);
 
-    const renderItem = ({ item }) => (
-        <View style={styles.itemCard}>
+    const renderItem = (item) => (
+        <View key={item.name} style={styles.itemCard}>
+            <View style={styles.cardHeader}>
+                <Text style={styles.itemName} numberOfLines={2}>{item.name}</Text>
+                <TouchableOpacity>
+                    <Ionicons name="heart-outline" size={20} color="#FF6B6B" />
+                </TouchableOpacity>
+            </View>
+
             <View style={styles.itemImageContainer}>
                 <Image source={{ uri: item.image }} style={styles.itemImage} />
             </View>
-            <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemWeight}>{item.weight}</Text>
-                <View style={styles.priceContainer}>
+
+            <View style={styles.cardFooter}>
+                <View>
                     <Text style={styles.itemPrice}>{item.price}</Text>
-                    <TouchableOpacity style={styles.addButton} onPress={() => CartService.addItem(item)}>
-                        <Ionicons name="add" size={24} color="#fff" />
-                    </TouchableOpacity>
+                    <Text style={styles.itemWeight}>for {item.weight}</Text>
                 </View>
+                <TouchableOpacity style={styles.addButton} onPress={() => CartService.addItem(item)}>
+                    <Ionicons name="add" size={24} color="#4CAF50" />
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -380,18 +387,17 @@ export default function MainPage() {
                 />
             </View>
 
-            {/* Section List */}
-            <SectionList
-                sections={filteredData}
-                keyExtractor={(item, index) => item + index}
-                renderItem={renderItem}
-                renderSectionHeader={({ section: { title } }) => (
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>{title}</Text>
+            {/* Content with Grid */}
+            <ScrollView contentContainerStyle={styles.listContent} showsVerticalScrollIndicator={false}>
+                {filteredData.map((section) => (
+                    <View key={section.title} style={styles.sectionContainer}>
+                        <Text style={styles.sectionTitle}>{section.title}</Text>
+                        <View style={styles.gridContainer}>
+                            {section.data.map((item) => renderItem(item))}
+                        </View>
                     </View>
-                )}
-                contentContainerStyle={styles.listContent}
-            />
+                ))}
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -448,70 +454,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingBottom: 40,
     },
-    header: {
-        backgroundColor: "#FAFAFA",
-        paddingVertical: 15,
-        marginTop: 10,
-    },
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: "700",
-        color: "#1A1A1A",
-    },
-    headerContainer: {
-        marginBottom: 10,
-    },
-    searchBar: {
-        display: 'none', // Hidden as we moved it to top
-    },
-    bannerContainer: {
-        marginTop: 20,
+    sectionContainer: {
         marginBottom: 25,
-        borderRadius: 24,
-        backgroundColor: "#FFF9C4", // Light yellow/beige
-        overflow: "hidden",
-        elevation: 2,
-        shadowColor: "#FBC02D",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-    },
-    bannerContent: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 24,
-    },
-    bannerTextContainer: {
-        flex: 1,
-    },
-    bannerTitle: {
-        fontSize: 28,
-        fontWeight: "900",
-        color: "#1A1A1A",
-        marginBottom: 4,
-    },
-    bannerSubtitle: {
-        fontSize: 15,
-        color: "#555",
-        marginBottom: 16,
-        fontWeight: "500",
-    },
-    bannerButton: {
-        backgroundColor: "#1A1A1A",
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 30,
-        alignSelf: "flex-start",
-    },
-    bannerButtonText: {
-        color: "#fff",
-        fontWeight: "600",
-        fontSize: 13,
-    },
-    bannerImage: {
-        width: 100,
-        height: 100,
-        resizeMode: "contain",
     },
     sectionTitle: {
         fontSize: 20,
@@ -519,103 +463,70 @@ const styles = StyleSheet.create({
         color: "#1A1A1A",
         marginBottom: 15,
     },
-    categoriesScroll: {
-        marginBottom: 10,
-    },
-    categoryCard: {
-        width: 80,
-        height: 90,
-        marginRight: 12,
-        borderRadius: 16,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 8,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-        elevation: 2,
-    },
-    selectedCategoryCard: {
-        borderWidth: 2,
-        borderColor: "#4CAF50",
-    },
-    categoryImage: {
-        width: 40,
-        height: 40,
-        marginBottom: 8,
-    },
-    categoryName: {
-        fontSize: 11,
-        fontWeight: "600",
-        color: "#333",
-        textAlign: "center",
+    gridContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
     },
     itemCard: {
+        width: "48%",
         backgroundColor: "#fff",
         borderRadius: 20,
         padding: 12,
         marginBottom: 16,
-        flexDirection: "row",
-        alignItems: "center",
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.06,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
         shadowRadius: 8,
         elevation: 3,
     },
+    cardHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 8,
+    },
     itemImageContainer: {
-        width: 80,
-        height: 80,
-        borderRadius: 16,
-        backgroundColor: "#F5F5F5",
+        width: "100%",
+        height: 100,
         justifyContent: "center",
         alignItems: "center",
-        marginRight: 16,
+        marginBottom: 12,
     },
     itemImage: {
-        width: 60,
-        height: 60,
+        width: "80%",
+        height: "80%",
         resizeMode: "contain",
     },
-    itemInfo: {
-        flex: 1,
-        justifyContent: "center",
-    },
     itemName: {
-        fontSize: 17,
+        fontSize: 15,
         fontWeight: "700",
         color: "#1A1A1A",
-        marginBottom: 4,
+        flex: 1,
+        marginRight: 4,
     },
-    itemWeight: {
-        fontSize: 13,
-        color: "#888",
-        marginBottom: 8,
-        fontWeight: "500",
-    },
-    priceContainer: {
+    cardFooter: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
     },
     itemPrice: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "800",
         color: "#1A1A1A",
     },
+    itemWeight: {
+        fontSize: 12,
+        color: "#888",
+        fontWeight: "500",
+    },
     addButton: {
-        backgroundColor: "#4CAF50",
-        width: 40,
-        height: 40,
-        borderRadius: 14,
+        width: 32,
+        height: 32,
+        borderRadius: 10,
+        backgroundColor: "#F0F9F4", // Light green background
         justifyContent: "center",
         alignItems: "center",
-        shadowColor: "#4CAF50",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 6,
-        elevation: 4,
     },
 });
 
