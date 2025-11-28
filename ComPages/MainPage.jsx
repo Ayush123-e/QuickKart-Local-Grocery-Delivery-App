@@ -116,11 +116,19 @@ export default function MainPage() {
                     <Text style={styles.deliveryTime}>10 minutes</Text>
                     <Text style={styles.location}>Somewhere, Somewhere...</Text>
                 </View>
-                <TouchableOpacity style={styles.profileButton}>
-                    <View style={styles.profileIcon}>
-                        <Icon name="person" size={24} color="#666" />
-                    </View>
-                </TouchableOpacity>
+                <View style={styles.headerButtons}>
+                    <TouchableOpacity 
+                        style={styles.orderHistoryButton}
+                        onPress={() => setShowOrderHistory(true)}
+                    >
+                        <Icon name="history" size={24} color="#666" />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.profileButton}>
+                        <View style={styles.profileIcon}>
+                            <Icon name="person" size={24} color="#666" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
@@ -256,6 +264,14 @@ const styles = StyleSheet.create({
     location: {
         fontSize: 14,
         color: "#666",
+    },
+    headerButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    orderHistoryButton: {
+        padding: 8,
+        marginRight: 8,
     },
     profileButton: {
         padding: 5,
